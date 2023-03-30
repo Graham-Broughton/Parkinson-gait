@@ -7,6 +7,7 @@ train = os.path.join(data, 'train')
 test = os.path.join(data, 'test')
 unlabeled = os.path.join(data, 'unlabeled')
 
+
 @dataclass
 class CFG:
     NCOLS: int = 20
@@ -16,4 +17,5 @@ class CFG:
     TRAIN_PATH: str = train
     TEST_PATH: str = test
     UNLABELED_PATH: str = unlabeled
-    
+    SAVEFIG: bool = False
+    SEED: int = 42
