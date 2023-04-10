@@ -13,7 +13,7 @@ gld = Style.BRIGHT + Fore.YELLOW
 res = Style.RESET_ALL
 
 
-def file_reader(file):
+def file_reader(file: str):
     """
     Reads a filepath to a csv and adds Id from the filepath to the resulting dataframe
     """
@@ -22,7 +22,16 @@ def file_reader(file):
     return df
 
 
-def concat_to_parquet(CFG, metadata, dataset: str = 'tdcsfog'):
+def concat_to_parquet(CFG, metadata: pd.DataFrame, dataset: str = 'tdcsfog'):
+    """
+    Returns a dataframe of the concatenated metadata and the patients time series data,
+    with an option to save as parquet file
+
+    Args:
+        CFG: Config class
+        metadata: Metadata dataframe
+        dataset: Dataset as string to read patient time series
+    """
     print(f'\t{grn}Reading {blu}{dataset} {grn}files{res}')
     files = glob(f'{CFG.TRAIN_PATH}/{dataset}/*')
 
@@ -31,6 +40,9 @@ def concat_to_parquet(CFG, metadata, dataset: str = 'tdcsfog'):
 
     df = df.merge(metadata, how='inner', on='Id')
 
-    df.to_parquet(f'{CFG.TRAIN_PATH}/{dataset}_merged.parquet.gz', compression='gzip')
-    del df, files
+    if CFG.SAVE_PARQUET:
+        print(f'\t{grn}Saving {blu}{dataset} {grn}to parquet{res}')
+        df.to_parquet(f'{CFG.TRAIN_PATH}/{dataset}_merged.parquet.gz', compression='gzip')
+
     gc.collect()
+    return df

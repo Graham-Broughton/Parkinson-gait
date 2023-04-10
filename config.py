@@ -18,4 +18,5 @@ class CFG:
     TEST_PATH: str = test
     UNLABELED_PATH: str = unlabeled
     SAVEFIG: bool = False
+    SAVE_PARQUET: bool = True
     SEED: int = 42
